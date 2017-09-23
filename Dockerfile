@@ -1,5 +1,5 @@
 #    Python with Firefox and Xvfb Dockerfile.
-#    Copyright (c) 2015, 2016 Richard Huang <rickypc@users.noreply.github.com>
+#    Copyright (c) 2015, 2016, 2017 Richard Huang <rickypc@users.noreply.github.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,7 +19,11 @@ MAINTAINER Richard Huang <rickypc@users.noreply.github.com>
 
 RUN apk add --no-cache bash curl dbus firefox-esr fontconfig python ttf-freefont xvfb
 
-ARG GECKODRIVER_VERSION=0.19.0
+# Prevent time drift
+RUN ntpd -dqnp pool.ntp.org
+
+# Add gecko driver
+ARG GECKODRIVER_VERSION=0.15.0
 ARG GECKODRIVER_FILE=v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz
 RUN curl -s -o /tmp/geckodriver.tar.gz -L \
   https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_FILE \
